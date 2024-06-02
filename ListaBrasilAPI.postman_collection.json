@@ -1,0 +1,322 @@
+{
+	"info": {
+		"_postman_id": "38f4294d-3d02-47be-8a65-34eb0b824083",
+		"name": "ListaBrasilAPI",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34898171"
+	},
+	"item": [
+		{
+			"name": "Buscar Banco por código",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Correctly verify Bank name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.name).to.eql(\"BCO DO BRASIL S.A.\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://brasilapi.com.br/api/banks/v1/1",
+					"protocol": "https",
+					"host": [
+						"brasilapi",
+						"com",
+						"br"
+					],
+					"path": [
+						"api",
+						"banks",
+						"v1",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Banco por código (Falha)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Receive not found Bank message\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Código bancário não encontrado\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://brasilapi.com.br/api/banks/v1/1999",
+					"protocol": "https",
+					"host": [
+						"brasilapi",
+						"com",
+						"br"
+					],
+					"path": [
+						"api",
+						"banks",
+						"v1",
+						"1999"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Cidade por CEP",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Correctly identify city by CEP\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.city).to.eql(\"Santa Rita do Sapucaí\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://brasilapi.com.br/api/cep/v2/37540000",
+					"protocol": "https",
+					"host": [
+						"brasilapi",
+						"com",
+						"br"
+					],
+					"path": [
+						"api",
+						"cep",
+						"v2",
+						"37540000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Cidade por CEP (Falha)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 404\", function () {",
+							"    pm.response.to.have.status(404);",
+							"});",
+							"",
+							"pm.test(\"Correctly display not found City\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Todos os serviços de CEP retornaram erro.\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://brasilapi.com.br/api/cep/v2/00000000",
+					"protocol": "https",
+					"host": [
+						"brasilapi",
+						"com",
+						"br"
+					],
+					"path": [
+						"api",
+						"cep",
+						"v2",
+						"00000000"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Veículo na tabela FIPE",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Correctly identify variations of the Escort car and its informations\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.length).to.eq(14);",
+							"    pm.expect(jsonData[0].modelo).to.eql(\"Escort GL 1.6i / 1.6\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://brasilapi.com.br/api/fipe/preco/v1/003030-9",
+					"protocol": "https",
+					"host": [
+						"brasilapi",
+						"com",
+						"br"
+					],
+					"path": [
+						"api",
+						"fipe",
+						"preco",
+						"v1",
+						"003030-9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Buscar Veículo na tabela FIPE (Falha)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Correctly throw error for not found car\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Código fipe inválido\");",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://brasilapi.com.br/api/fipe/preco/v1/111111-1",
+					"protocol": "https",
+					"host": [
+						"brasilapi",
+						"com",
+						"br"
+					],
+					"path": [
+						"api",
+						"fipe",
+						"preco",
+						"v1",
+						"111111-1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
